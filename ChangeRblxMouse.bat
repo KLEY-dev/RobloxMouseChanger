@@ -1,5 +1,7 @@
 @echo off
 
+title Roblox Mouse Changer
+
 ::start menu
 :start
 cls
@@ -302,10 +304,14 @@ pause
 goto menu
 
 
+
+
 :leave
 cls
 color C
 echo Thx for using this program :)
+
+
 timeout 1 > nul
 exit
 
