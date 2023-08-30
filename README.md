@@ -4,6 +4,7 @@
 2. Unpack it where you want
 3. Then just run ChangeRblxMouse.bat
 ### ⚙️ What does it do?
+* Change your roblox fps limit
 * Change your roblox cursor
 * Change your roblox crosshair
 * Easy-to-use

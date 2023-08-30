@@ -34,7 +34,7 @@ echo:
 :: set paths
 set crosshair=%version%\%rblxfolder%\content\textures
 set cursor=%crosshair%\Cursors\KeyboardMouse
-
+set clientSettings=%version%\%rblxfolder%
 
 
 
@@ -56,6 +56,8 @@ echo:
 ::color--[[
 md tempFolder
 cd tempFolder
+echo .>"[0] Change fps limit"
+findstr /A:0B /S "." "[0] Change fps limit"
 echo .>"[1] Change cursor"
 findstr /A:0B /S "." "[1] Change cursor"
 echo .>"[2] Change crosshair"
@@ -76,6 +78,7 @@ rd /S /Q tempFolder
 
 ::choice menu
 set /p choice="number of option: "
+if %choice%==0 goto fpsmax
 if %choice%==1 goto cursor
 if %choice%==2 goto crosshair
 if %choice%==3 goto automatic
@@ -237,8 +240,72 @@ pause
 goto menu
 
 
+:fpsmax
+cls
+echo:
+
+::color--[[
+md tempFolder
+cd tempFolder
+echo .>"Type fps number"
+findstr /A:02 /S "." "Type fps number"
+echo:
+ 
+cd ..
+rd /S /Q tempFolder
+::]]--color
 
 
+set /p fps=
+set jsonData={"DFIntTaskSchedulerTargetFps": %fps%}
+
+
+:: check if it is number
+set /a varCheck=%fps%
+if %varCheck% == %fps% (goto correctfpsnumber) else (goto wrongfpsnumber)
+
+:wrongfpsnumber
+::color--[[
+md tempFolder
+cd tempFolder
+echo .>"Wrong number error"
+findstr /A:0C /S "." "Wrong number error"
+echo:
+ 
+cd ..
+rd /S /Q tempFolder
+::]]--color
+
+echo:
+
+timeout 2 > nul
+goto menu
+
+:correctfpsnumber
+cls
+echo:
+echo xd zcas zxgvasdg > "%scriptpath%ClientSettings\ClientAppSettings.json"
+
+echo %jsonData% > "%scriptpath%ClientSettings\ClientAppSettings.json"
+xcopy /Y /E /s /i "%scriptpath%ClientSettings" "%clientSettings%\ClientSettings"
+
+echo:
+
+::color--[[
+md tempFolder
+cd tempFolder
+
+echo .>"Change fps limit to %fps% successful""
+findstr /A:02 /S "." "Change fps limit to %fps% successful"
+
+cd ..
+rd /S /Q tempFolder
+::]]--color
+
+echo:
+echo:
+pause
+goto menu
 
 :default
 cls
@@ -250,6 +317,7 @@ xcopy /Y /F "%scriptpath%cursors\default\ArrowFarCursor.png" %cursor%\ArrowFarCu
 xcopy /Y /F "%scriptpath%cursors\default\IBeamCursor.png" %cursor%\IBeamCursor.png
 
 xcopy /Y /F "%scriptpath%crosshairs\default\MouseLockedCursor.png" %crosshair%\MouseLockedCursor.png
+xcopy /Y/E /s /i "%scriptpath%ClientSettings" "%clientSettings%\ClientSettings"
 
 echo:
 
@@ -285,6 +353,7 @@ xcopy /Y /F "%scriptpath%cursors\auto\IBeamCursor.png" %cursor%\IBeamCursor.png
 
 xcopy /Y /F "%scriptpath%crosshairs\auto\MouseLockedCursor.png" %crosshair%\MouseLockedCursor.png
 
+xcopy /Y /E /s /i "%scriptpath%ClientSettings" "%clientSettings%\ClientSettings"
 echo:
 
 ::color--[[
