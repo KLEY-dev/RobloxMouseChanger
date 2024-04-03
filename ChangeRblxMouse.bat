@@ -85,7 +85,7 @@ if %choice%==2 goto crosshair
 if %choice%==3 goto automatic
 if %choice%==4 goto default
 if %choice%==5 goto autorun
-if %choice%==5 goto leave
+if %choice%==6 goto leave
 
 ::if user write something diffrent
 echo:
