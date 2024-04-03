@@ -6,7 +6,7 @@ title Roblox Mouse Changer
 :start
 cls
 ::default rblx folder
-SET scriptpath=%~dp0
+set scriptpath=%~dp0
 ::"%scriptpath%"
 
 ::change here if you have diffrent rblx location
@@ -14,7 +14,6 @@ set version=C:\Users\%USERNAME%\AppData\Local\Roblox\Versions\
 
 C:
 cd %version%
-
 
 ::user chose dictionary
 for /D %%s in (*) do (
@@ -37,7 +36,7 @@ set cursor=%crosshair%\Cursors\KeyboardMouse
 set clientSettings=%version%\%rblxfolder%
 
 
-
+if "%1"=="auto" goto automatic
 
 :menu
 cls
@@ -66,8 +65,10 @@ echo .>"[3] Change all automaticly"
 findstr /A:02 /S "." "[3] Change all automaticly"
 echo .>"[4] Default"
 findstr /A:08 /S "." "[4] Default"
-echo .>"[5] Leave"
-findstr /A:0C /S "." "[5] Leave"
+echo .>"[5] Auto run on startup"
+findstr /A:08 /S "." "[5] Auto run on startup"
+echo .>"[6] Leave"
+findstr /A:0C /S "." "[6] Leave"
 echo:
  
 cd ..
@@ -83,6 +84,7 @@ if %choice%==1 goto cursor
 if %choice%==2 goto crosshair
 if %choice%==3 goto automatic
 if %choice%==4 goto default
+if %choice%==5 goto autorun
 if %choice%==5 goto leave
 
 ::if user write something diffrent
@@ -369,10 +371,45 @@ rd /S /Q tempFolder
 
 echo:
 echo:
+
+if "%1"=="auto" goto leave
+
 pause
 goto menu
 
 
+:autorun
+cls
+cd %scriptpath%
+
+echo:
+
+echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
+echo sLinkFile = "%userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\RobloxMouseChangerAutoRunner.lnk" >> CreateShortcut.vbs
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
+echo oLink.TargetPath = "%scriptpath%\AutoChange.vbs" >> CreateShortcut.vbs
+echo oLink.WorkingDirectory = "%scriptpath%" >> CreateShortcut.vbs
+echo oLink.Save >> CreateShortcut.vbs
+cscript CreateShortcut.vbs
+del CreateShortcut.vbs
+
+echo:
+
+::color--[[
+md tempFolder
+cd tempFolder
+echo .>"Remember to run this again if you change this folder path"
+findstr /A:02 /S "." "Remember to run this again if you change this folder path"
+echo:
+ 
+cd ..
+rd /S /Q tempFolder
+::]]--color
+
+cd %version%
+
+pause
+goto menu
 
 
 :leave
