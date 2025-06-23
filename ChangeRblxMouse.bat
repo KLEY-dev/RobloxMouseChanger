@@ -19,7 +19,7 @@ cd %version%
 for /D %%s in (*) do (
 
 ::if exist then it is rblx folder
-if exist %%s\RobloxPlayerLauncher.exe (
+if exist %%s\RobloxPlayerBeta.exe (
 set rblxfolder=%%s
 )
 
